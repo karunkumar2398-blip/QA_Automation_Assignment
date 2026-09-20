@@ -1,0 +1,8 @@
+venv/
+.env
+__pycache__/
+.pytest_cache/
+*.pyc
+test_case_1_failure.png
+test_case_2_failure.png
+after_signin_click.png
