@@ -1,4 +1,16 @@
+import sys
+from pathlib import Path
 import time
+
+# ============================================================
+# Make project root available to Python/pytest
+# ============================================================
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,6 +29,7 @@ from utils.google_sheet_logger import log_result
 # ============================================================
 
 def test_login_and_dashboard():
+
     start_time = time.time()
     driver = create_driver()
 
@@ -24,6 +37,7 @@ def test_login_and_dashboard():
     failure_reason = ""
 
     try:
+
         # Open homepage
         driver.get(BASE_URL)
 
@@ -53,7 +67,11 @@ def test_login_and_dashboard():
 
         # Login
         login_page = LoginPage(driver)
-        login_page.login(EMAIL, PASSWORD)
+
+        login_page.login(
+            EMAIL,
+            PASSWORD
+        )
 
         # Verify dashboard
         dashboard_page = DashboardPage(driver)
@@ -69,7 +87,10 @@ def test_login_and_dashboard():
         print("\nTEST CASE 1: PASS")
 
     except Exception as e:
-        failure_reason = f"{type(e).__name__}: {str(e)}"
+
+        failure_reason = (
+            f"{type(e).__name__}: {str(e)}"
+        )
 
         print("\nTEST CASE 1: FAIL")
         print("Failure reason:", failure_reason)
@@ -81,6 +102,7 @@ def test_login_and_dashboard():
         raise
 
     finally:
+
         execution_time = time.time() - start_time
 
         print(
@@ -105,6 +127,7 @@ def test_login_and_dashboard():
 # ============================================================
 
 def test_invitation_live_demo():
+
     start_time = time.time()
     driver = create_driver()
 
@@ -112,18 +135,13 @@ def test_invitation_live_demo():
     failure_reason = ""
 
     try:
+
         wait = WebDriverWait(driver, 20)
 
-        # ----------------------------------------------------
-        # 1. Open homepage
-        # ----------------------------------------------------
-
+        # Open homepage
         driver.get(BASE_URL)
 
-        # ----------------------------------------------------
-        # 2. Click Invitations
-        # ----------------------------------------------------
-
+        # Click Invitations
         invitations = wait.until(
             EC.element_to_be_clickable(
                 (
@@ -137,10 +155,7 @@ def test_invitation_live_demo():
 
         time.sleep(2)
 
-        # ----------------------------------------------------
-        # 3. Open Commercial category
-        # ----------------------------------------------------
-
+        # Open Commercial category
         commercial_locator = (
             By.CSS_SELECTOR,
             "a.occasion-overlay[href='/invitations/commercial']"
@@ -168,17 +183,12 @@ def test_invitation_live_demo():
 
         print("Opening Commercial category...")
 
-        # JavaScript click because normal Selenium click
-        # was timing out on this element
         driver.execute_script(
             "arguments[0].click();",
             commercial_category
         )
 
-        # ----------------------------------------------------
-        # 4. Find The Abstract Edge template
-        # ----------------------------------------------------
-
+        # Find The Abstract Edge template
         template_locator = (
             By.XPATH,
             "//h3[normalize-space()='The Abstract Edge']"
@@ -192,10 +202,7 @@ def test_invitation_live_demo():
 
         print("The Abstract Edge template found")
 
-        # ----------------------------------------------------
-        # 5. Find complete template card
-        # ----------------------------------------------------
-
+        # Find complete template card
         card_locator = (
             By.XPATH,
             "//h3[normalize-space()='The Abstract Edge']"
@@ -222,10 +229,7 @@ def test_invitation_live_demo():
 
         time.sleep(1)
 
-        # ----------------------------------------------------
-        # 6. Click the template card
-        # ----------------------------------------------------
-
+        # Click template card
         print("Opening The Abstract Edge...")
 
         driver.execute_script(
@@ -235,19 +239,19 @@ def test_invitation_live_demo():
 
         time.sleep(2)
 
-        # ----------------------------------------------------
-        # 7. Find Live Demo button
-        # ----------------------------------------------------
-
+        # Find Live Demo button
         live_demo_locators = [
+
             (
                 By.CSS_SELECTOR,
                 "button.demo-live-btn"
             ),
+
             (
                 By.XPATH,
                 "//button[contains(normalize-space(.),'Live Demo')]"
             ),
+
             (
                 By.XPATH,
                 "//*[contains(@class,'demo-live-btn')]"
@@ -259,11 +263,14 @@ def test_invitation_live_demo():
         for locator in live_demo_locators:
 
             try:
+
                 live_demo_button = WebDriverWait(
                     driver,
                     5
                 ).until(
-                    EC.presence_of_element_located(locator)
+                    EC.presence_of_element_located(
+                        locator
+                    )
                 )
 
                 if live_demo_button:
@@ -277,10 +284,7 @@ def test_invitation_live_demo():
 
         print("Live Demo button found")
 
-        # ----------------------------------------------------
-        # 8. Scroll Live Demo into view
-        # ----------------------------------------------------
-
+        # Scroll Live Demo into view
         driver.execute_script(
             """
             arguments[0].scrollIntoView({
@@ -293,17 +297,13 @@ def test_invitation_live_demo():
 
         time.sleep(1)
 
-        # ----------------------------------------------------
-        # 9. Store original window
-        # ----------------------------------------------------
-
+        # Store original window
         original_window = driver.current_window_handle
-        original_windows = set(driver.window_handles)
+        original_windows = set(
+            driver.window_handles
+        )
 
-        # ----------------------------------------------------
-        # 10. Click Live Demo
-        # ----------------------------------------------------
-
+        # Click Live Demo
         print("Clicking Live Demo...")
 
         driver.execute_script(
@@ -311,13 +311,11 @@ def test_invitation_live_demo():
             live_demo_button
         )
 
-        # ----------------------------------------------------
-        # 11. Wait for new window/tab
-        # ----------------------------------------------------
-
+        # Wait for new window/tab
         wait.until(
             lambda d:
-            len(d.window_handles) > len(original_windows)
+            len(d.window_handles) >
+            len(original_windows)
         )
 
         new_windows = (
@@ -331,18 +329,18 @@ def test_invitation_live_demo():
         new_window = new_windows.pop()
 
         # Switch to new window
-        driver.switch_to.window(new_window)
+        driver.switch_to.window(
+            new_window
+        )
 
         print("Live Demo window opened")
         print("Live Demo URL:", driver.current_url)
         print("Live Demo title:", driver.title)
 
-        # ----------------------------------------------------
-        # 12. Verify Live Demo page
-        # ----------------------------------------------------
-
+        # Verify Live Demo page
         wait.until(
-            lambda d: d.current_url != ""
+            lambda d:
+            d.current_url != ""
         )
 
         assert driver.current_url != BASE_URL, \
@@ -353,19 +351,15 @@ def test_invitation_live_demo():
 
         print("Live Demo page verified")
 
-        # ----------------------------------------------------
-        # 13. Close Live Demo window
-        # ----------------------------------------------------
-
+        # Close Live Demo window
         driver.close()
 
         print("Live Demo window closed")
 
-        # ----------------------------------------------------
-        # 14. Return to original window
-        # ----------------------------------------------------
-
-        driver.switch_to.window(original_window)
+        # Return to original window
+        driver.switch_to.window(
+            original_window
+        )
 
         assert driver.current_window_handle == original_window, \
             "Could not return to original window"
@@ -377,7 +371,10 @@ def test_invitation_live_demo():
         print("\nTEST CASE 2: PASS")
 
     except Exception as e:
-        failure_reason = f"{type(e).__name__}: {str(e)}"
+
+        failure_reason = (
+            f"{type(e).__name__}: {str(e)}"
+        )
 
         print("\nTEST CASE 2: FAIL")
         print("Failure reason:", failure_reason)
@@ -389,6 +386,7 @@ def test_invitation_live_demo():
         raise
 
     finally:
+
         execution_time = time.time() - start_time
 
         print(
