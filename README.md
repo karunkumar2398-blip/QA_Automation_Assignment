@@ -44,7 +44,7 @@ The automation interacts with the website through Selenium WebDriver and verifie
 
 # 4. Project Structure
 
-```text
+```
 QA_Automation_Assignment/
 │
 ├── config/
@@ -69,39 +69,34 @@ QA_Automation_Assignment/
 ├── pytest.ini
 ├── requirements.txt
 └── README.md
+```
+
 Folder Responsibilities
 config/
-
 Contains configuration values such as:
 
 Website URLs
 Login credentials loaded from environment variables
 pages/
-
 Contains Page Object Model classes and page-specific locators.
 
 tests/
-
 Contains the actual Pytest test cases.
 
 utils/
-
 Contains reusable utilities such as:
 
 Chrome WebDriver creation
 Google Sheets result logging
 .env
-
 Contains local credentials.
-
 This file is intentionally excluded from GitHub.
-
 .env.example
 
 Provides an example of the environment variables required to run the project.
 
 5. Framework Architecture
-
+```
 The project follows the Page Object Model (POM) approach.
                     Pytest Test Cases
                            |
@@ -132,7 +127,7 @@ The project follows the Page Object Model (POM) approach.
                           |
                           v
                     Google Sheet
-
+```
 Test Case 1 – Login and User Dashboard Verification
 Objective
 
