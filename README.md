@@ -1,96 +1,74 @@
-\# QA Automation Assignment
+# QA Automation Assignment – Invitation Nation
 
+## Overview
 
+This project is a Selenium-based QA automation framework developed to validate key user journeys on the **Invitation Nation** website.
 
-\## Overview
+The automation covers two functional test cases:
 
+1. **Login and User Dashboard Verification**
+2. **Invitation Live Demo and New Window Verification**
 
+The framework is built using **Python, Selenium WebDriver, and Pytest** and follows the **Page Object Model (POM)** design pattern.
 
-This project automates functional testing of the Invitation Nation website using Selenium WebDriver and Python.
+The framework also automatically records every test execution in a **Google Sheet**, including:
 
+- Date and time
+- Test case name
+- PASS/FAIL status
+- Execution time
+- Failure reason
 
+---
 
-The automation covers:
+## 1. Website Under Test
 
+**Invitation Nation**
 
+https://invitationnation.in/
 
-1\. User login and dashboard verification.
+---
 
-2\. Invitation category navigation and Live Demo verification.
+## 2. Technologies Used
 
-3\. Automatic test-result logging to Google Sheets.
+| Technology | Purpose |
+|---|---|
+| Python | Automation programming language |
+| Selenium WebDriver | Browser automation |
+| Pytest | Test execution and assertions |
+| Page Object Model | Maintainable automation architecture |
+| Google Apps Script | Receives test execution results |
+| Google Sheets | Stores execution history |
+| python-dotenv | Loads environment variables |
+| Requests | Sends results to Google Apps Script |
+| Google Chrome | Browser used for automation |
 
+---
 
-
-\## Technologies Used
-
-
-
-\- Python 3.11
-
-\- Selenium WebDriver
-
-\- Pytest
-
-\- Google Apps Script Web App
-
-\- Google Sheets
-
-\- python-dotenv
-
-\- Requests
-
-\- Chrome WebDriver
-
-
-
-\## Project Structure
-
-
+# 3. Project Structure
 
 ```text
-
-QA\_Automation\_Assignment/
-
+QA_Automation_Assignment/
 │
-
 ├── config/
-
-│   ├── \_\_init\_\_.py
-
+│   ├── __init__.py
 │   └── config.py
-
 │
-
 ├── pages/
-
-│   ├── signup\_page.py
-
-│   ├── login\_page.py
-
-│   └── dashboard\_page.py
-
+│   ├── signup_page.py
+│   ├── login_page.py
+│   └── dashboard_page.py
 │
-
 ├── tests/
-
-│   └── test\_browser.py
-
+│   └── test_browser.py
 │
-
 ├── utils/
-
-│   ├── driver\_factory.py
-
-│   └── google\_sheet\_logger.py
-
+│   ├── driver_factory.py
+│   └── google_sheet_logger.py
 │
-
 ├── .env
-
+├── .env.example
 ├── .gitignore
-
+├── pytest.ini
 ├── requirements.txt
-
 └── README.md
-
